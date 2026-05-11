@@ -1,34 +1,27 @@
+using System.Security.Cryptography;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
+//In-memory list - no database yet
+var products = new List<Product>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    new(1, "Keyboard", 499.90m, 10),
+    new(2, "Mouse", 299.90m, 25),
+    new(3, "Monitor", 3499.90m, 5),
 };
 
-app.MapGet("/weatherforecast", () =>
+//GET /products - returns all products
+app.MapGet("/products", () => Results.Ok(products));
+
+//GET /products/{id} - returns single product
+app.MapGet("products/{id}", (int id) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var product = products.FirstOrDefault(p => p.Id == id);
+    return product is null ? Results.NotFound() : Results.Ok(product);
 });
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+//Product model
+record Product(int Id, string Name, decimal Price, int Stock);
