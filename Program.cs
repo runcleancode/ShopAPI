@@ -11,14 +11,24 @@ var products = new List<Product>
     new(3, "Monitor", 3499.90m, 5),
 };
 
-//GET /products - returns all products
-app.MapGet("/products", () => Results.Ok(products));
-
 //GET /products/{id} - returns single product
 app.MapGet("products/{id}", (int id) =>
 {
     var product = products.FirstOrDefault(p => p.Id == id);
     return product is null ? Results.NotFound() : Results.Ok(product);
+});
+
+//GET /products - supports optional price filtering
+app.MapGet("/products", (decimal? minPrice, decimal? maxPrice) =>
+{
+    var filtered = products.AsEnumerable();
+    if (minPrice.HasValue)
+        filtered = filtered.Where(p => p.Price >= minPrice.Value);
+
+    if (maxPrice.HasValue)
+        filtered = filtered.Where(p => p.Price <= maxPrice.Value);
+
+    return Results.Ok(filtered.ToList());
 });
 
 app.Run();
