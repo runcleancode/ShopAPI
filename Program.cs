@@ -6,7 +6,7 @@ var app = builder.Build();
 //In-memory list - no database yet
 var products = new List<Product>
 {
-    new(1, "Keyboard", 499.90m, 10),
+    new(1, "Keyboard", 599.90m, 10),
     new(2, "Mouse", 299.90m, 25),
     new(3, "Monitor", 3499.90m, 5),
 };
