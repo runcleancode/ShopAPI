@@ -1,3 +1,4 @@
+// ShopAPI v1.0 — maintained by ShopAPI team
 using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
