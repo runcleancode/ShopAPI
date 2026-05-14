@@ -8,7 +8,7 @@ var products = new List<Product>
 {
     new(1, "Keyboard", 599.90m, 50),
     new(2, "Mouse", 299.90m, 25),
-    new(3, "Monitor", 3499.90m, 5)
+    new(3, "Monitor", 3499.90m, 5),
 };
 
 //GET /products/{id} - returns single product
@@ -33,16 +33,5 @@ app.MapGet("/products", (decimal? minPrice, decimal? maxPrice) =>
 
 app.Run();
 
-var orders = new List<Order>();
-
-//POST /orders - adds a new order
-//BUG: stock not updated, price not validated
-app.MapPost("/orders", (Order order) =>
-{
-    orders.Add(order);
-    return Results.Ok();
-});
-
 //Product model
 record Product(int Id, string Name, decimal Price, int Stock);
-record Order(int Product, int Quantity);
