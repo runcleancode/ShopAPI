@@ -32,6 +32,16 @@ app.MapGet("/products", (decimal? minPrice, decimal? maxPrice) =>
     return Results.Ok(filtered.ToList());
 });
 
+//A job left half-finished
+
+//WIP: categories endpoint - not finished yet
+app.MapGet("/categories", () =>
+{
+    var categories = new List<string> { "Electronics", "Clothing", "Food" };
+    return Results.Ok(categories);
+
+});
+
 app.Run();
 
 //Product model
