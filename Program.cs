@@ -14,6 +14,7 @@ var products = new List<Product>
 //GET /products/{id} - returns single product
 app.MapGet("products/{id}", (int id) =>
 {
+    if (id <= 0) return Results.BadRequest("Id must be greater than 0");
     var product = products.FirstOrDefault(p => p.Id == id);
     return product is null ? Results.NotFound() : Results.Ok(product);
 });
