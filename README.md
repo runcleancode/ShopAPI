@@ -1,27 +1,56 @@
-#Scenario 1
-Team leader's Slack message:
+# ShopAPI
 
-@Ozdemir
-We need price filtering for the products endpoint. It should work like "/products?minPrice=100&maxPrice=500" .Can you handle it today?
+A minimal ASP.NET Core Web API for e-commerce operations.
 
-First step
-I added a branch name of "feature/price-filter"
+## Endpoints
 
-#Scenario 2
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /products | List all products (supports minPrice, maxPrice filters) |
+| GET | /products/{id} | Get product by id |
+| GET | /categories | List all categories |
 
-Your teammate modified the same file at the same time. You both want to merge them into main. What will Git do?
+## Tech Stack
 
-You're going to update the price of the Keyboard. At the same time, your teammate Ahmet is changing the stock quantity of the Keyboard in the same file. You both touched the same line. Git can't buy both; he'll ask you to make the decision.
+- .NET 10
+- ASP.NET Core Minimal API
 
-#Scenario 3
+## Getting Started
 
-The team lead wrote on Slack this morning: "Hakan, we deployed last night, orders aren’t coming through, and customers are complaining. Check what happened!"
+```bash
+dotnet run
+```
 
+---
 
-@hakan — We deployed last night and orders are broken. Customers are complaining. Check what happened ASAP!
+## Development Scenarios
 
-#Scenario 4
+### Scenario 1 — Feature Branch & Price Filter
+> **@hakan** — We need price filtering for the products endpoint.
+> It should work like `/products?minPrice=100&maxPrice=500`. Can you handle it today?
 
-The team lead wrote the following on Slack:
+- Created branch `feature/price-filter`
+- Added optional `minPrice` and `maxPrice` query parameters
+- Merged into `main` via fast-forward
 
-@hakan — Put what you’re doing aside; there’s a critical bug in the product’s end-user interface. Fix it straight away, then get back to your work.
+### Scenario 2 — Merge Conflict
+Two developers modified the same line simultaneously.
+- Branch `feature/update-keyboard-price` → price: 599.90
+- Branch `feature/update-keyboard-stock` → stock: 50
+- Resolved manually: kept both changes
+
+### Scenario 3 — Revert in Production
+> **@hakan** — We deployed last night and orders are broken.
+> Customers are complaining. Check what happened ASAP!
+
+- Identified bad commit with `git log`
+- Used `git revert` to safely undo without rewriting history
+
+### Scenario 4 — Stash & Hotfix
+> **@hakan** — Stop what you're doing, we have a critical bug
+> in the products endpoint. Fix it now, then continue your work.
+
+- Saved unfinished work with `git stash`
+- Created `hotfix/products-null-check` branch
+- Fixed bug, merged to `main`
+- Restored unfinished work with `git stash pop`
