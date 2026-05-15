@@ -43,6 +43,13 @@ app.MapGet("/categories", () =>
 
 });
 
+//POST /product - adds a new product
+app.MapPost("/products", (Product product) =>
+{
+    products.Add(product);
+    return Results.Created($"/products/{product.Id}", product);
+});
+
 app.Run();
 
 //Product model
